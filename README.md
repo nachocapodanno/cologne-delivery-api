@@ -51,7 +51,7 @@ $ npm run test:cov
 
 ## Prod Enviroment
 
-[Kamil Myśliwiec](https://kamilmysliwiec.com)
+[Cologne Delivery API](https://cologne-delivery-api.herokuapp.com/api/)
 
 ## Author
 
