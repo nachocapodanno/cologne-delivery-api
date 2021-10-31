@@ -38,6 +38,7 @@ export class AuthController {
         return res.status(HttpStatus.OK).json({
           token,
           id: user.id,
+          username: user.username
         });
     } else {
       return res

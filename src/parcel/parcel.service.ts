@@ -2,6 +2,7 @@ import {HttpStatus, Injectable} from '@nestjs/common';
 import {CreateParcelDto} from './dto/create-parcel.dto';
 import {UpdateParcelDto} from './dto/update-parcel.dto';
 import {ParcelStatus} from "./enums/status.enum";
+import users from "../../assets/data/users";
 
 @Injectable()
 export class ParcelService {
@@ -99,10 +100,22 @@ export class ParcelService {
   }
 
   findAllBySenderId(id: number) {
-    return this.storage.filter(parcel => parcel.sender === id);
+    const parcels = this.storage.filter(parcel => parcel.sender === id);
+    return this.getParcelsWithUserEntities(parcels);
   }
 
   findAllByBikerId(id: number) {
-    return this.storage.filter(parcel => parcel.biker === id);
+    const parcels = this.storage.filter(parcel => parcel.biker === id);
+    return this.getParcelsWithUserEntities(parcels);
+  }
+
+  private getParcelsWithUserEntities (parcels: any) {
+    return parcels.map(item => {
+      return {...item, sender: this.findUserByUserId(item.sender), biker: this.findUserByUserId(item.biker)}
+    })
+  }
+
+  private findUserByUserId(id: any) {
+    return users.find(user => user.id === id);
   }
 }
