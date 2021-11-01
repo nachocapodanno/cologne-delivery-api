@@ -55,4 +55,4 @@ $ npm run test:cov
 
 ## Author
 
-  Ignacio Capodanno
+  Ignacio Capodanno**

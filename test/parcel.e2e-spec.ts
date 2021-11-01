@@ -46,7 +46,7 @@ describe('ParcelController (e2e)', () => {
                 "weight": 12,
                 "pickupAddress": "source address 123",
                 "deliveryAddress": "delivery address 123",
-                "sender": '5',
+                "sender": 5,
                 "status": 1,
                 "id": 1
             })
@@ -86,7 +86,7 @@ describe('ParcelController (e2e)', () => {
                 "weight": 12,
                 "pickupAddress": "source address 123",
                 "deliveryAddress": "delivery address 123",
-                "sender": '5',
+                "sender": 5,
                 "status": 1,
                 "id": 1,
                 "deliveryTime": "2021-10-26T07:46:36",

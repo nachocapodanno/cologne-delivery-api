@@ -26,7 +26,6 @@ export class ParcelController {
   }
 
   @Get()
-  @Roles(Role.Sender)
   @ApiOperation({ summary: 'Get all parcels from storage.' })
   @ApiTags('parcel')
   @ApiResponse({
@@ -66,8 +65,8 @@ export class ParcelController {
     description: 'Resource not found.',
   })
   @ApiParam({ name: 'id', required: true, example: 1, description: 'Parcel Id' })
-  update(@Param('id') id: string, @Body() updateParcelDto: UpdateParcelDto, @Response() res: any) {
-    const response =  this.parcelService.update(+id, updateParcelDto);
+  update(@Param('id') id: string, @Body() updateParcelDto: UpdateParcelDto, @Response() res: any, @Request() req: any) {
+    const response =  this.parcelService.update(+id, updateParcelDto, req.user);
     return res.status(response.code).json(response.data);
   }
 
@@ -102,7 +101,7 @@ export class ParcelController {
     description: 'Forbidden.',
   })
   findAllBySenderId(@Param('id') id: number) {
-    return this.parcelService.findAllBySenderId(id);
+    return this.parcelService.findAllBySenderId(+id);
   }
 
 
@@ -120,6 +119,6 @@ export class ParcelController {
     description: 'Forbidden.',
   })
   findAllByBikerId(@Param('id') id: number) {
-    return this.parcelService.findAllByBikerId(id);
+    return this.parcelService.findAllByBikerId(+id);
   }
 }

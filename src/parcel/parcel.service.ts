@@ -54,7 +54,7 @@ export class ParcelService {
     }
   }
 
-  update(id: number, updateParcelDto: UpdateParcelDto) {
+  update(id: number, updateParcelDto: UpdateParcelDto, loggedUser: any) {
     const parcel = this.storage.find(parcel => parcel.id === id)
     if (!parcel) {
       return {
@@ -64,6 +64,27 @@ export class ParcelService {
           description: 'Please check your params and url.',
         }
       }
+    }
+    if (loggedUser.roles.includes('biker')) {
+      if (parcel.biker) {
+        if (parcel.biker !== loggedUser.id) {
+          return {
+            code: HttpStatus.FORBIDDEN,
+            data: {
+              message: 'Resource not allowed',
+              description: 'Please check your permissions.',
+            }
+          }
+        }
+      } else {
+        updateParcelDto.biker = loggedUser.id;
+      }
+    }
+    if (updateParcelDto?.status === ParcelStatus.Picked) {
+      updateParcelDto.pickupTime = new Date()
+    }
+    if (updateParcelDto?.status === ParcelStatus.Delivered) {
+      updateParcelDto.deliveryTime = new Date()
     }
     const updatedParcel = Object.assign(parcel, updateParcelDto);
     this.storage[parcel.id - 1] = updatedParcel;
@@ -115,7 +136,7 @@ export class ParcelService {
     })
   }
 
-  private findUserByUserId(id: any) {
+  private findUserByUserId(id: number) {
     return users.find(user => user.id === id);
   }
 }
